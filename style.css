@@ -1,0 +1,30 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  display: block;
+}
+
+  .botao-bonito {
+      padding: 12px 24px;
+      color: white;
+      background: linear-gradient(270deg, rgb(255,0,0), rgb(0,255,0), rgb(0,0,255));
+      background-size: 600% 600%;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      animation: animarRGB 5s ease infinite;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s ease;
+  }
+
+    .botao-bonito:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes animarRGB {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
