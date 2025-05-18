@@ -10,6 +10,9 @@ let botaoReiniciar;
 let musica;
 let somPerdeu;
 let somGanhou;
+let telaInicial
+let telaAtual = "inicio";
+let botaoComecar;
 
 // Carregar a fonte e os sons do jogo
 function preload() {
@@ -17,11 +20,12 @@ function preload() {
   musica = loadSound("musica.mp3")
   somPerdeu = loadSound("perdeu.mp3")
   somGanhou = loadSound("ganhou.mp3")
+  telaInicial = loadImage("telainicial.png")
 }
 
 
 function setup() {
-  musica.loop() // Começa a musica de fundo
+
   
   categorias = [  // Item das palavras e das categorias
     { nome: "Animal", lista: ["elefante", "cachorro", "gato", "pato"] },
@@ -60,6 +64,12 @@ function draw() {
   background("black");
 
   textFont(fontRegular);
+
+ if (telaAtual === "inicio") {
+   mostrarTelaInicial()
+  image(telaInicial, 0, 0);
+  return;
+ }
 
 // Desenho da forca
   stroke("white");
@@ -179,11 +189,30 @@ function mostrarTelaGameOver() {
   botaoReiniciar.mousePressed(reiniciarJogo);
 }
 
+function mostrarTelaInicial() {
+  if (!botaoComecar) {
+    botaoComecar = createButton("Começar");
+    botaoComecar.position(width / 2 - 75, height - 50);
+    botaoComecar.class("botao-bonito");
+    botaoComecar.mousePressed(reiniciarJogo);
+  }
+}
+
 function reiniciarJogo() {
   letrasCertas = [];
   letrasErradas = [];
+  telaAtual = "jogo"
   gameOver = false;
+  if (botaoComecar) {
+    botaoComecar.remove();
+    botaoComecar = null;
+    musica.loop() // Começa a musica de fundo
+  }
 
+  if (botaoReiniciar) {
+    botaoReiniciar.remove();
+    botaoReiniciar = null;
+  }
   carinha = random(["🤓", "😀", "😎", "😛", "🤠", "😈", "👽", "😮"]);
   let sorteada = random(categorias);
   categoriaNome = sorteada.nome;
@@ -192,9 +221,9 @@ function reiniciarJogo() {
     letrasCertas[i] = "_";
   }
 
-  botaoReiniciar.remove();
   loop(); 
 }
+
 
 // Observações importantes: caso for colocar uma categoria nova é só mudar o item
 // pra mudar o botão tem q mexer com o css
